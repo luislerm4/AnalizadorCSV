@@ -14,12 +14,21 @@ public class AnalizadorCSV {
             return;
         }
 
-        String archivoDatos = propiedades.getProperty("archivo");
-        String separador = propiedades.getProperty("separador");
-        String directorioSalida = propiedades.getProperty("directorioSalida");
+        String archivoDatos = propiedades.getProperty("archivo", "datos/datos.csv");
+        String separador = propiedades.getProperty("separador", ",");
+        String directorioSalida = propiedades.getProperty("directorioSalida", "salida");
+
+        boolean mostrarDetalles = Boolean.parseBoolean(
+                propiedades.getProperty("mostrarDetalles", "false")
+        );
+        int maxRegistros = Integer.parseInt(
+                propiedades.getProperty("maxRegistros", "100")
+        );
 
         System.out.println("Archivo: " + archivoDatos);
         System.out.println("Separador: " + separador);
         System.out.println("Directorio: " + directorioSalida);
+        System.out.println("Mostrar detalles: " + mostrarDetalles);
+        System.out.println("Max registros: " + maxRegistros);
     }
 }
