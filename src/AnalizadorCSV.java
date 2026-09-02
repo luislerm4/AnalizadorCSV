@@ -5,30 +5,31 @@ import java.util.Properties;
 public class AnalizadorCSV {
 
     public static void main(String[] args) {
+        // 1. Cargar archivo de propiedades
         Properties propiedades = new Properties();
 
         try (FileInputStream archivo = new FileInputStream("config/application.properties")) {
             propiedades.load(archivo);
         } catch (IOException e) {
-            System.out.println("No fue posible cargar la configuración.");
-            return;
+            System.out.println("Se utilizará configuración predeterminada.");
         }
 
-        String archivoDatos = propiedades.getProperty("archivo", "datos/datos.csv");
-        String separador = propiedades.getProperty("separador", ",");
-        String directorioSalida = propiedades.getProperty("directorioSalida", "salida");
+        String separador = ",";
 
-        boolean mostrarDetalles = Boolean.parseBoolean(
-                propiedades.getProperty("mostrarDetalles", "false")
-        );
-        int maxRegistros = Integer.parseInt(
-                propiedades.getProperty("maxRegistros", "100")
-        );
+        separador = propiedades.getProperty("separador", separador);
+
+        // 4. Revisar variable de ambiente
+        separador = System.getenv().getOrDefault("CSV_SEPARATOR", separador);
+
+        if (args.length >= 2) {
+            separador = args[1];
+        }
+
+        String archivoDatos = args.length >= 1
+                ? args[0]
+                : propiedades.getProperty("archivo", "datos/datos.csv");
 
         System.out.println("Archivo: " + archivoDatos);
-        System.out.println("Separador: " + separador);
-        System.out.println("Directorio: " + directorioSalida);
-        System.out.println("Mostrar detalles: " + mostrarDetalles);
-        System.out.println("Max registros: " + maxRegistros);
+        System.out.println("Separador final utilizado: " + separador);
     }
 }
