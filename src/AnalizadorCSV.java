@@ -13,7 +13,8 @@ public class AnalizadorCSV {
             separador = args[1];
         }
 
-        String directorioSalida = System.getenv("ANALIZADOR_OUTPUT");
+        String directorioSalida = System.getenv()
+                .getOrDefault("ANALIZADOR_OUTPUT", "salida");
 
         System.out.println("Archivo: " + archivo);
         System.out.println("Separador: " + separador);
